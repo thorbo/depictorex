@@ -28,10 +28,8 @@ if __name__ == "__main__":
     img = img.resize((130*2,110*2))
 
     # Convert image to common format
-    img = img.convert("RGB")
+    img = img.convert("RGB") # use mode "1" for black and white
     img.show()
-    bwimg = img.convert("1", dither=None)
-    bwimg.show()
 
     # # Modify color palette
     # for i in range(img.size[0]):
