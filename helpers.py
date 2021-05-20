@@ -16,7 +16,6 @@ Palette1 = [
     [198,255,0],
     [255,238,51],
     [255,146,51],
-
     [233,222,187],
     [129,74,25],
     [248,187,208],
@@ -24,8 +23,11 @@ Palette1 = [
     [173,35,35],
     [255,255,255]
 ]
+tree = None
 
-tree = KDTree(Palette1)
+def buildTree():
+    global tree
+    tree = KDTree(Palette1)
 
 def colorDist(c1, c2):
     rdist = c1[0] - c2[0]
@@ -42,8 +44,10 @@ def wrapper(func, *args, **kwargs):
     return wrapped
 
 def getColor_KDT(color):
+    if not tree:
+        buildTree()
     d, i = tree.query(color)
-    return Palette1[i]
+    return tuple(Palette1[i])
 
 def getColor_brute(color):
     dist = colorDist(color, Palette1[0])
@@ -52,12 +56,15 @@ def getColor_brute(color):
         if check <= dist:
             dist = check
             newColor = p
-    return newColor
+    return tuple(newColor)
 
-wrapped = wrapper(getColor_brute, randcolor())
-print(f"Brute Force Palette Location Time: {timeit(wrapped, number=10000)}")
+def checkPaletteFuncs():
+    wrapped = wrapper(getColor_brute, randcolor())
+    print(f"Brute Force Palette Location Time: {timeit(wrapped, number=20000)}")
 
-wrapped = wrapper(getColor_KDT, randcolor())
-print(f"KD Tree Palette Location Time: {timeit(wrapped, number=10000)}")
+    wrapped = wrapper(getColor_KDT, randcolor())
+    print(f"KD Tree Palette Location Time: {timeit(wrapped, number=20000)}")
 
-
+# TODO bug in putpalette. Doesn't convert as expected
+# img = img.convert("P", palette=Image.ADAPTIVE, colors=256)
+# img.putpalette(Palette1)
