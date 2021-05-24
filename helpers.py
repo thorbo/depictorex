@@ -65,6 +65,3 @@ def checkPaletteFuncs():
     wrapped = wrapper(getColor_KDT, randcolor())
     print(f"KD Tree Palette Location Time: {timeit(wrapped, number=20000)}")
 
-# TODO bug in putpalette. Doesn't convert as expected
-# img = img.convert("P", palette=Image.ADAPTIVE, colors=256)
-# img.putpalette(Palette1)
