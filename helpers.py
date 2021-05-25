@@ -3,6 +3,7 @@ from timeit import timeit
 import random
 import math
 
+tree = None
 Palette1 = [
     # Format - list of ints, used in PIL
     [0,0,0],
@@ -23,33 +24,32 @@ Palette1 = [
     [173,35,35],
     [255,255,255]
 ]
-tree = None
+
 
 def buildTree():
+    """Build KDTree from palette when first called"""
     global tree
     tree = KDTree(Palette1)
 
+
 def colorDist(c1, c2):
+    """Return 3D distance between two colors"""
     rdist = c1[0] - c2[0]
     gdist = c1[1] - c2[1]
     bdist = c1[2] - c2[2]
     return math.sqrt(rdist * rdist + gdist * gdist + bdist * bdist)
 
-def randcolor():
-    return [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
-
-def wrapper(func, *args, **kwargs):
-    def wrapped():
-        return func(*args, **kwargs)
-    return wrapped
 
 def getColor_KDT(color):
+    """Return closest color available in color palette"""
     if not tree:
         buildTree()
     d, i = tree.query(color)
     return tuple(Palette1[i])
 
+
 def getColor_brute(color):
+    """Return closest color available in color palette"""
     dist = colorDist(color, Palette1[0])
     for p in Palette1:
         check = colorDist(p, color)
@@ -57,6 +57,18 @@ def getColor_brute(color):
             dist = check
             newColor = p
     return tuple(newColor)
+
+
+def randcolor():
+    """Return random RGB value"""
+    return [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+
+
+def wrapper(func, *args, **kwargs):
+    def wrapped():
+        return func(*args, **kwargs)
+    return wrapped
+
 
 def checkPaletteFuncs():
     wrapped = wrapper(getColor_brute, randcolor())
