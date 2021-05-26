@@ -6,4 +6,4 @@ Y_START = 220
 BLOT_SIZE = 3
 WIDTH = (800) // BLOT_SIZE  # 800
 HEIGHT = (650) // BLOT_SIZE # 650
-DRAG_DUR = 0.1     # anything < 0.1 is instantaneous per pyautogui documentation
+DRAG_DUR = 0    # anything < 0.1 is instantaneous per pyautogui documentation

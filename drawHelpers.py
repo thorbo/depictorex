@@ -58,7 +58,7 @@ def combo_draw(img, color):
                     dark = True
                 elif j == img.size[1] - 1:
                     pyautogui.dragTo(globals.X_START + globals.BLOT_SIZE * i, globals.Y_START + globals.BLOT_SIZE * j,
-                                     button="left", duration=globals.DRAG_DUR, _pause=0.3)
+                                     button="left", duration=globals.DRAG_DUR, _pause=False)
                     dark = False
             else:
                 if dark:
